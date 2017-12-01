@@ -1,3 +1,22 @@
+# Personal note
+Forked cdrx/rancher-gitlab-deploy for private use with rancher 2 (api v3).
+
+Feel free to use it, however this version is probably buggy(and these bugs may eat your dog) as it was intended to be used just with single specific, personal use-case.
+
+Keep in mind that these functions are NOT PORTED:
+- transactional upgrade
+- sidekicks support
+
+```
+deploy:
+  stage: deploy
+  image: kpolszewski/rancher2-gitlab-deploy
+  script:
+    - upgrade --cluster somecluster --environment production --stack acme --service web --new-image alpine:3.4
+```
+
+**ORIGINAL DOCUMENTATION BELOW**
+
 # Rancher GitLab Deployment Tool
 
 **rancher-gitlab-deploy** is a tool for deploying containers built with GitLab CI onto your Rancher infrastructure.
