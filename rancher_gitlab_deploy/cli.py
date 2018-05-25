@@ -149,7 +149,7 @@ def main(rancher_url, rancher_key, rancher_secret, cluster, environment, stack_n
 
         # 6 -> Start the upgrade
         msg("Upgrading %s/%s in environment %s of cluster %s..." % (stack['name'], service['name'], environment_name, cluster_name))
-        upgrade = { "annotations":{"gitlab.com/updateTime": datetime.date.today().strftime("%Y%m%d%H%M%S")} }
+        upgrade = { "annotations":{"gitlab.com/updateTime": datetime.datetime.today().strftime("%Y%m%d%H%M%S")} }
 
         if new_image:
                 upgrade['image'] = '%s' % new_image
