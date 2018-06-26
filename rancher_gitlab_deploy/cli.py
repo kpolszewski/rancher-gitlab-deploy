@@ -8,6 +8,7 @@ import logging
 import contextlib
 import ssl
 import datetime
+import urllib3
 
 try:
     from http.client import HTTPConnection # py3
@@ -39,10 +40,12 @@ from time import sleep
               help="Wait for Rancher to finish the upgrade before this tool exits")
 @click.option('--new-image', default=None,
               help="If specified, replace the image (and :tag) with this one during the upgrade")
-@click.option('--debug/--no-debug', default=False,
+@click.option('--debug/--no-debug', default=True,
               help="Enable HTTP Debugging")
 def main(rancher_url, rancher_key, rancher_secret, cluster, environment, stack_name, service, new_image, upgrade_timeout, wait_for_upgrade_to_finish, debug):
         """Performs an in service upgrade of the service specified on the command line"""
+
+        urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
         if debug:
                 debug_requests_on()
@@ -149,10 +152,11 @@ def main(rancher_url, rancher_key, rancher_secret, cluster, environment, stack_n
 
         # 6 -> Start the upgrade
         msg("Upgrading %s/%s in environment %s of cluster %s..." % (stack['name'], service['name'], environment_name, cluster_name))
-        upgrade = { "annotations":{"gitlab.com/updateTime": datetime.datetime.today().strftime("%Y%m%d%H%M%S")} }
+        upgrade = s;
+        upgrade['annotations']['gitlab.com/updateTime'] = datetime.datetime.today().strftime("%Y%m%d%H%M%S");
 
         if new_image:
-                upgrade['image'] = '%s' % new_image
+                upgrade['containers'][0]['image'] = '%s' % new_image
 
         try:
                 r = session.put(service['links']['self'], json=upgrade, verify=False)
