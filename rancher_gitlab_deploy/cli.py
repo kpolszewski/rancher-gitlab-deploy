@@ -147,7 +147,7 @@ def main(rancher_url, rancher_key, rancher_secret, cluster, environment, stack_n
                 bail("Unable to find a service called '%s', does it exist in Rancher?" % service)
 
         # 5 -> Is the service elligible for upgrade?
-        if service['state'] != 'active':
+        if service['state'] != 'active' and service['state'] != 'updating':
                 bail("Unable to start upgrade: current service state '%s', but it needs to be 'active'" % service['state'])
 
         # 6 -> Start the upgrade
